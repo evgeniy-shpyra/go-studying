@@ -1,0 +1,13 @@
+name: testing
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  chek_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo "Hello Go"
