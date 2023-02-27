@@ -1,13 +1,39 @@
 name: testing
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
     types:
       - closed
 
 jobs:
-  chek_merged:
-    if: github.event.pull_request.merged == true
+  build:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "Hello Go"
+    - uses: actions/checkout@v3
+    
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.20.1
+    
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
+  
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+  
+    steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: 1.20.1
+
+    - uses: actions/checkout@v3
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v3
+      with:
+         version: v1.50.1
