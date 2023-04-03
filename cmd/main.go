@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+
+	"github.com/zhashkevych/todo-app"
 )
 
 func main() {
